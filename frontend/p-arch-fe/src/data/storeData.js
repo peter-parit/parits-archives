@@ -1,30 +1,55 @@
 export const featuredProducts = [
-  { name: 'Midnight Archive Box', price: '$79', slug: 'midnight-archive-box' },
-  { name: 'Signal Echo Set', price: '$120', slug: 'signal-echo-set' },
-  { name: 'Collector Ticket Pack', price: '$39', slug: 'collector-ticket-pack' },
-  { name: 'Monolith Edition', price: '$220', slug: 'monolith-edition' },
+  {
+    name: 'Midnight Reverie',
+    price: '$19',
+    slug: 'midnight-reverie',
+    difficulty: 'Beginner',
+    composer: 'A. Mercer',
+    description: 'A single-file piano arrangement with a calm, lyrical flow and easy practice pacing.',
+    format: 'PDF',
+  },
+  {
+    name: 'Signal Echo',
+    price: '$24',
+    slug: 'signal-echo',
+    difficulty: 'Intermediate',
+    composer: 'L. Viere',
+    description: 'One digital sheet music file designed for expressive phrasing and rhythmic control.',
+    format: 'PDF',
+  },
+  {
+    name: 'Quiet Passage',
+    price: '$16',
+    slug: 'quiet-passage',
+    difficulty: 'Beginner',
+    composer: 'Studio Archive',
+    description: 'A short piece delivered as one downloadable PDF for solo piano study and practice.',
+    format: 'PDF',
+  },
+  {
+    name: 'Monolith No. 4',
+    price: '$29',
+    slug: 'monolith-no-4',
+    difficulty: 'Advanced',
+    composer: 'R. Corwin',
+    description: 'A dramatic single-file score for advanced performance, with rich harmonic movement and texture.',
+    format: 'PDF',
+  },
 ];
 
-export const collections = [
-  'Signal Archive',
-  'Nocturne Editions',
-  'City of Echoes',
-  'Field Notes',
-];
-
-export const filterOptions = ['All items', 'Rare', 'New arrivals', 'Bundles', 'Digital'];
+export const filterOptions = ['All items', 'Beginner', 'Intermediate', 'Advanced'];
 
 export const storeHighlights = [
   {
-    title: 'Featured drops',
-    copy: 'Fresh arrivals from our newest archive collections.',
+    title: 'Digital single-file editions',
+    copy: 'Each piece is sold as one downloadable sheet music file.',
   },
   {
-    title: 'Collector picks',
-    copy: 'Handpicked products with strong demand and limited quantities.',
+    title: 'Curated repertoire',
+    copy: 'Thoughtful selections for study, performance, and personal collection.',
   },
   {
-    title: 'Gift-worthy bundles',
-    copy: 'Ready-made sets for events, anniversaries, and milestones.',
+    title: 'Instant access',
+    copy: 'Purchase once and receive a direct file download for your chosen piece.',
   },
 ];

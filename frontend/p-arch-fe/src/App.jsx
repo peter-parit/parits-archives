@@ -1,10 +1,9 @@
 import { Route, Routes } from 'react-router-dom'
 
+import GlobalNav from './components/GlobalNav'
 import StoreHomePage from './app/store/page'
 import BrowsePage from './app/store/browse/page'
 import ProductDetailPage from './app/store/browse/[slug]/page'
-import CollectionsPage from './app/store/browse/collections/page'
-import CollectionDetailPage from './app/store/browse/collections/[slug]/page'
 import CartPage from './app/store/cart/page'
 import CheckoutPage from './app/store/checkout/page'
 import CheckoutSuccessPage from './app/store/checkout/success/page'
@@ -27,8 +26,6 @@ const routes = [
   { path: '/', element: <StoreHomePage /> },
   { path: '/browse', element: <BrowsePage /> },
   { path: '/browse/:slug', element: <ProductDetailPage /> },
-  { path: '/browse/collections', element: <CollectionsPage /> },
-  { path: '/browse/collections/:slug', element: <CollectionDetailPage /> },
   { path: '/cart', element: <CartPage /> },
   { path: '/checkout', element: <CheckoutPage /> },
   { path: '/checkout/success', element: <CheckoutSuccessPage /> },
@@ -49,11 +46,14 @@ const routes = [
 
 function App() {
   return (
-    <Routes>
-      {routes.map(({ path, element }) => (
-        <Route key={path} path={path} element={element} />
-      ))}
-    </Routes>
+    <>
+      <GlobalNav />
+      <Routes>
+        {routes.map(({ path, element }) => (
+          <Route key={path} path={path} element={element} />
+        ))}
+      </Routes>
+    </>
   )
 }
 
