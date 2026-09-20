@@ -14,17 +14,8 @@ export default function StoreHomePage() {
           Browse catalog
         </Link>
       }
-    >
-      <InfoGrid
-        items={storeHighlights}
-        renderItem={(item: any) => (
-          <article key={item.title} className="info-card">
-            <span className="kicker">Store</span>
-            <h3>{item.title}</h3>
-            <p>{item.copy}</p>
-          </article>
-        )}
-      />
-    </PageShell>
+      children
+    />
+
   );
 }
