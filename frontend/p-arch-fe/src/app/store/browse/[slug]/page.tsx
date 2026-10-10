@@ -1,46 +1,75 @@
-import { useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import PageShell from '../../../../components/PageShell';
-import EmptyShell from '../../../../components/EmptyShell';
+import { addToCart, getCart } from '../../../../data/cart';
+import { featuredProducts } from '../../../../data/storeData';
 
 export default function ProductDetailPage() {
   const { slug } = useParams();
-  const title = (slug ?? 'product').replace(/-/g, ' ');
+  const product = featuredProducts.find((item) => item.slug === slug);
+  const [cartItems, setCartItems] = useState(getCart);
+  const inCart = cartItems.some((item) => item.slug === slug);
+
+  if (!product) {
+    return (
+      <PageShell
+        eyebrow="Product"
+        title="Piece not found"
+        description="This score is not currently available in the catalog."
+        actions={false}
+        children
+      />
+    );
+  }
+
+  const handleAddToCart = () => {
+    setCartItems(addToCart(product));
+  };
 
   return (
-    <EmptyShell>
+    <PageShell
+      eyebrow="Product"
+      title={product.name}
+      description="One digital score, delivered as a single PDF file for personal study and performance."
+      actions={false}
+    >
       <section className="product-detail-layout">
         <div className="product-detail-main">
           <div className="product-detail-header">
             <span className="kicker">Digital score</span>
-            <h2>{title}</h2>
+            <h2>{product.name}</h2>
           </div>
 
-          <p className="product-detail-description">
-            A carefully selected piano work presented as a single downloadable PDF. This edition is
-            intended for personal study and performance practice, with clean engraving and readable
-            notation for focused rehearsal.
-          </p>
+          <p className="product-detail-description">{product.description}</p>
 
           <div className="product-detail-meta">
             <div>
               <span className="meta-label">Composer</span>
-              <p>A. Mercer</p>
+              <p>{product.composer}</p>
             </div>
             <div>
               <span className="meta-label">Difficulty</span>
-              <p>Intermediate</p>
+              <p>{product.difficulty}</p>
+            </div>
+            <div>
+              <span className="meta-label">Format</span>
+              <p>{product.format}</p>
             </div>
           </div>
 
           <div className="product-detail-purchase">
             <div className="price-block">
               <span className="price-label">Price</span>
-              <strong>$24</strong>
+              <strong>{product.price}</strong>
             </div>
 
-            <button type="button" className="primary-button">
-              Add to cart
-            </button>
+            {inCart ? (
+              <Link to="/cart" className="primary-button">View cart</Link>
+            ) : (
+              <button type="button" className="primary-button" onClick={handleAddToCart}>
+                Add to cart
+              </button>
+            )}
           </div>
         </div>
 
@@ -48,8 +77,11 @@ export default function ProductDetailPage() {
           <div className="pdf-preview-header">
             <span>PDF preview</span>
           </div>
+
           <div className="pdf-preview-surface">
-            <div className="pdf-page">
+            <div className="pdf-page" aria-hidden="true">
+              <div className="pdf-lines" />
+              <div className="pdf-lines short" />
               <div className="pdf-lines" />
               <div className="pdf-lines short" />
               <div className="pdf-lines" />
@@ -58,6 +90,6 @@ export default function ProductDetailPage() {
           </div>
         </aside>
       </section>
-    </EmptyShell>
+    </PageShell>
   );
 }
