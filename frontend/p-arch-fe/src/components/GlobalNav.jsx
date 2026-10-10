@@ -18,8 +18,23 @@ function UserIcon() {
     </svg>
   );
 }
+import { useEffect, useState } from 'react';
+import { getCart, getCartCount } from '../data/cart';
 
 export default function GlobalNav() {
+  const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+    const syncCartCount = () => setCartCount(getCartCount(getCart()));
+    syncCartCount();
+    window.addEventListener('cartchange', syncCartCount);
+    window.addEventListener('storage', syncCartCount);
+    return () => {
+      window.removeEventListener('cartchange', syncCartCount);
+      window.removeEventListener('storage', syncCartCount);
+    };
+  }, []);
+
   return (
     <header className="global-nav">
       <div className="nav-inner">
@@ -38,6 +53,7 @@ export default function GlobalNav() {
           <NavLink to="/cart" className={({ isActive }) => `nav-link nav-icon-link ${isActive ? 'active' : ''}`} aria-label="Cart">
             <span className="nav-icon"><CartIcon /></span>
             <span className="nav-label">Cart</span>
+            <span className="cart-count" aria-label={`${cartCount} items in cart`}>{cartCount}</span>
           </NavLink>
 
           <NavLink to="/account/orders" className={({ isActive }) => `nav-link nav-icon-link ${isActive ? 'active' : ''}`} aria-label="Account">

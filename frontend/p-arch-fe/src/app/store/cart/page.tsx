@@ -1,11 +1,17 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PageShell from '../../../components/PageShell';
-import InfoGrid from '../../../components/InfoGrid';
+import {
+  formatCurrency,
+  getCart,
+  getCartSubtotal,
+  removeFromCart,
+} from '../../../data/cart';
 
 export default function CartPage() {
-  const cartItems = [
-    { name: 'Midnight Archive Box', qty: 'Qty: 1', price: '$79' },
-  ];
+  const [cartItems, setCartItems] = useState(getCart);
+
+  const subtotal = getCartSubtotal(cartItems);
 
   return (
     <PageShell
@@ -14,28 +20,55 @@ export default function CartPage() {
       description="Review your selected pieces before checkout."
       actions
     >
-      <InfoGrid
-        items={cartItems}
-        renderItem={(item: any) => (
-          <article key={item.name} className="list-card">
-            <h3>{item.name}</h3>
-            <p>{item.qty}</p>
-            <p>{item.price}</p>
-          </article>
-        )}
-      />
-
-      <aside className="summary-card">
-        <h3>Order summary</h3>
-        <p>Subtotal: $79</p>
-        <p>Shipping: $12</p>
-        <strong>Total: $91</strong>
-        <div className="cta-row">
-          <Link to="/checkout" className="primary-button">
-            Proceed to checkout
-          </Link>
+      {cartItems.length === 0 ? (
+        <div className="empty-state">
+          <div>
+            <p>Your cart is empty.</p>
+            <div className="cta-row">
+              <Link to="/browse" className="primary-button">
+                Browse pieces
+              </Link>
+            </div>
+          </div>
         </div>
-      </aside>
+      ) : (
+        <>
+          <section className="cart-list">
+            {cartItems.map((item) => (
+              <article key={item.slug} className="list-card">
+                <div>
+                  <span className="kicker">Digital score</span>
+                  <h3>{item.name}</h3>
+                  <p className="cart-composer">{item.composer} · {item.format}</p>
+                </div>
+
+                <div className="cart-line-item">
+                  <strong>{formatCurrency(item.priceValue || 0)}</strong>
+                  <button
+                    type="button"
+                    className="remove-item-button"
+                    onClick={() => setCartItems(removeFromCart(item.slug))}
+                  >
+                    Remove
+                  </button>
+                </div>
+              </article>
+            ))}
+          </section>
+
+          <aside className="summary-card">
+            <h3>Order summary</h3>
+            <p>Subtotal: {formatCurrency(subtotal)}</p>
+            <p>Digital delivery: Free</p>
+            <strong>Total: {formatCurrency(subtotal)}</strong>
+            <div className="cta-row">
+              <Link to="/checkout" className="primary-button">
+                Proceed to checkout
+              </Link>
+            </div>
+          </aside>
+        </>
+      )}
     </PageShell>
   );
 }

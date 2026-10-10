@@ -5,8 +5,9 @@ export default function CheckoutSuccessPage() {
   return (
     <PageShell
       eyebrow="Order complete"
-      title="Thank you for your purchase."
-      description="Your order has been confirmed and a receipt has been sent to your inbox."
+      title="Your demo order is complete."
+      description="No payment was processed and no PDF was delivered. Checkout is ready to connect to payment and delivery services."
+      children
       actions={
         <>
           <Link to="/account/orders" className="primary-button">
@@ -17,7 +18,6 @@ export default function CheckoutSuccessPage() {
           </Link>
         </>
       }
-      children
     />
   );
 }
