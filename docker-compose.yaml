@@ -1,0 +1,20 @@
+services:
+  db:
+    container_name: parits_archives_db_${ENV:?Set ENV in your .env file}
+    image: postgres
+    environment:
+      POSTGRES_DB: parits_archives_${ENV:?Set ENV in your .env file}
+      POSTGRES_USER: ${POSTGRES_USER:?Set POSTGRES_USER in your .env file}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in your .env file}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
